@@ -1,0 +1,27 @@
+{
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {
+    "requireConfigFile": false,
+    "babelOptions": {
+      "babelrc": false,
+      "configFile": false,
+      "presets": ["@babel/preset-env"]
+    }
+  },
+  "rules": {
+    "import/prefer-default-export": "off",
+    "no-unused-vars": "warn",
+    "max-len": [1, 140, 2, { "ignoreComments": true }],
+    "no-console": ["error", { "allow": ["warn", "error"] }],
+    "prefer-destructuring": ["error", { "object": true, "array": false }],
+    "import/extensions": ["error", "never"]
+  },
+  "env": {
+    "es6": true,
+    "browser": true,
+    "amd": true,
+    "node": true
+  },
+  "plugins": ["@babel", "prettier"],
+  "extends": ["eslint:recommended", "airbnb"]
+}
