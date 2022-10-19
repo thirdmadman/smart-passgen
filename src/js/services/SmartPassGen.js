@@ -2,12 +2,12 @@ export default class SmartPassGen {
   options = {
     length: 8,
     language: 'eng',
-    smartSymbols: true,
-    letters: true,
-    includeUppercase: false,
-    numbers: true,
-    specialSymbols: false,
-    specialSymbolsAdvanced: false,
+    isSmartSymbols: true,
+    isUseLetters: true,
+    isIncludeUppercase: false,
+    isUseNumbers: true,
+    isUseSpecialSymbols: false,
+    isUseSpecialSymbolsAdvanced: false,
   };
 
   constructor(options) {
@@ -27,23 +27,23 @@ export default class SmartPassGen {
     const specialSymbolsAdvanced = [...'!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~'];
 
     let resultCharacterSet = [];
-    if (this.options.numbers) {
+    if (this.options.isUseNumbers) {
       resultCharacterSet = resultCharacterSet.concat(numbers);
     }
 
-    if (this.options.letters) {
+    if (this.options.isUseLetters) {
       resultCharacterSet = resultCharacterSet.concat(alphabet);
-      if (this.options.includeUppercase) {
+      if (this.options.isIncludeUppercase) {
         resultCharacterSet = resultCharacterSet.concat(alphabetUpper);
       }
     }
 
-    if (this.options.smartSymbols) {
+    if (this.options.isSmartSymbols) {
       resultCharacterSet = resultCharacterSet.filter((el) => !sameSymbols.includes(el));
     }
 
-    if (this.options.specialSymbols) {
-      if (this.options.specialSymbolsAdvanced) {
+    if (this.options.isUseSpecialSymbols) {
+      if (this.options.isUseSpecialSymbolsAdvanced) {
         resultCharacterSet = resultCharacterSet.concat(specialSymbolsAdvanced);
       } else {
         resultCharacterSet = resultCharacterSet.concat(specialSymbols);
