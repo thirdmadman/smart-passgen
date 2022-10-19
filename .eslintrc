@@ -14,7 +14,9 @@
     "max-len": [1, 140, 2, { "ignoreComments": true }],
     "no-console": ["error", { "allow": ["warn", "error"] }],
     "prefer-destructuring": ["error", { "object": true, "array": false }],
-    "import/extensions": ["error", "never"]
+    "import/extensions": ["error", "never"],
+    "react/prefer-stateless-function": ["off"],
+    "react/prop-types": ["off"]
   },
   "env": {
     "es6": true,
