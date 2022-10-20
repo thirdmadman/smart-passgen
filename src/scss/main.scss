@@ -1,4 +1,68 @@
 .app {
   width: 320px;
   background-color: #ffffff;
+  padding: 0 10px;
+  font-weight: 100;
+}
+
+.app-title {
+  text-align: center;
+  font-weight: 400;
+  font-size: 18px;
+  margin: 15px 0;
+}
+
+.config-group {
+
+}
+
+.input-group {
+
+}
+
+.input-group__label {
+  display: flex;
+  justify-content: space-between;
+}
+
+.input-group__input {
+}
+
+.button-generate {
+  all: unset;
+  margin-bottom: 20px;
+  width: 100%;
+  padding: 5px 0px;
+  border: 1px solid #b9b9b9;
+  text-align: center;
+  font-size: 18px;
+  text-transform: uppercase;
+
+  transition: all 0.15s;
+
+
+  &:hover {
+    box-shadow: inset 0px 0px 16px 0px #dedede;
+  }
+
+  &:active {
+    box-shadow: inset 0px 0px 16px 7px #dedede;
+    transform: scale(0.95);
+  }
+}
+
+.password-text {
+  word-break: break-all;
+  margin-bottom: 10px;
+}
+
+.toggle-group {
+}
+
+.toggle-group__label {
+  display: flex;
+  justify-content: space-between;
+}
+
+.toggle-group__button {
 }
