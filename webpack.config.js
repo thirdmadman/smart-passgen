@@ -108,9 +108,8 @@ module.exports = {
     open: true,
     port: 8000,
     hot: true,
-    static: {
-      directory: path.join(__dirname, 'src'),
-      watch: true,
+    devMiddleware: {
+      writeToDisk: true,
     },
   },
 };
