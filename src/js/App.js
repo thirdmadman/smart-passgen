@@ -6,7 +6,7 @@ import LocalStorageProvider from './services/LocalStorageProvider';
 
 export default class App {
   constructor() {
-    const configData = LocalStorageProvider.getData();
+    let configData = LocalStorageProvider.getData();
 
     const appTitle = dhc('div', ['app-title'], 'Smart PassGen');
 
@@ -22,6 +22,7 @@ export default class App {
       smartPassGen.options[optionName] = event.target.checked;
       configData.config.generatorConfig[optionName] = event.target.checked;
       LocalStorageProvider.setData(configData);
+      configData = LocalStorageProvider.getData();
     };
 
     const isSmartSymbolsToggle = new ToggleElement({
@@ -61,7 +62,17 @@ export default class App {
     });
 
     buttonGeneratePassword.onclick = () => {
-      currentPasswordText.innerText = smartPassGen.generate();
+      const passwordText = smartPassGen.generate();
+      currentPasswordText.innerText = passwordText;
+
+      configData.lastPasswords.push({
+        date: new Date().toISOString(),
+        url: '',
+        password: passwordText,
+      });
+
+      LocalStorageProvider.setData(configData);
+      configData = LocalStorageProvider.getData();
     };
 
     const inputNumber = new InputNumber({
@@ -70,6 +81,7 @@ export default class App {
         smartPassGen.options.length = e.target.value;
         configData.config.generatorConfig.length = Number.parseInt(e.target.value, 10);
         LocalStorageProvider.setData(configData);
+        configData = LocalStorageProvider.getData();
       },
       value: smartPassGen.options.length,
     });
