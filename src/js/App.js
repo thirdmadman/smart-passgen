@@ -17,6 +17,7 @@ export default class App {
     this.mainEl = document.querySelector('.app');
     const buttonGeneratePassword = dhc('button', ['button-generate'], 'Generate');
     const currentPasswordText = dhc('div', ['password-text'], 'Here will be your password');
+    currentPasswordText.contentEditable = true;
 
     const toggleOption = (optionName, event) => {
       smartPassGen.options[optionName] = event.target.checked;
