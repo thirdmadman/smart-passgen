@@ -26,7 +26,7 @@ export default class App {
     };
 
     const isSmartSymbolsToggle = new ToggleElement({
-      textContent: 'Smart generator',
+      textContent: 'Use smart generator',
       onclick: (e) => toggleOption('isSmartSymbols', e),
       currentState: smartPassGen.options.isSmartSymbols,
     });
@@ -76,7 +76,7 @@ export default class App {
     };
 
     const inputNumber = new InputNumber({
-      textContent: 'Input Number',
+      textContent: 'Number of symbols',
       onchange: (e) => {
         smartPassGen.options.length = e.target.value;
         configData.config.generatorConfig.length = Number.parseInt(e.target.value, 10);
