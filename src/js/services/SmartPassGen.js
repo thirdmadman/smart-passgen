@@ -56,11 +56,70 @@ export default class SmartPassGen {
       return Math.floor(Math.random() * (maxAggregated - minAggregated + 1)) + minAggregated;
     };
 
-    let result = '';
+    const generatePassword = () => {
+      let result = '';
+      for (let i = 0; i < this.options.length; i += 1) {
+        result += String(resultCharacterSet[getRandomIntInRange(0, resultCharacterSet.length - 1)]);
+      }
+      return result;
+    };
 
-    for (let i = 0; i < this.options.length; i += 1) {
-      result += String(resultCharacterSet[getRandomIntInRange(0, resultCharacterSet.length - 1)]);
+    const testPassword = (password) => {
+      let variations = Number(this.options.isUseNumbers);
+      variations += Number(this.options.isUseLetters);
+      variations += Number(this.options.isIncludeUppercase);
+      variations += Number(this.options.isUseSpecialSymbols || this.options.isUseSpecialSymbolsAdvanced);
+
+      const minIncludesPerVariation = Math.floor(this.options.length / variations);
+
+      const testVariation = (passwordToTest, minIncludes, charset) => {
+        const includeTimes = [...passwordToTest].reduce((acc, el) => acc + Number([...charset].includes(el)), 0);
+        if (includeTimes >= minIncludes) {
+          return true;
+        }
+        return false;
+      };
+
+      const variants = [];
+
+      if (this.options.isUseNumbers) {
+        variants.push(numbers);
+      }
+      if (this.options.isUseLetters) {
+        variants.push(alphabet);
+        if (this.options.isIncludeUppercase) {
+          variants.push(alphabetUpper);
+        }
+      }
+
+      if (this.options.isUseSpecialSymbols) {
+        if (this.options.isUseSpecialSymbolsAdvanced) {
+          variants.push(specialSymbolsAdvanced);
+        } else {
+          variants.push(specialSymbols);
+        }
+      }
+
+      const variantsPass = variants.reduce(
+        (acc, variation) => acc + Number(testVariation(password, minIncludesPerVariation, variation)),
+        0,
+      );
+
+      return variantsPass === variants.length;
+    };
+
+    let password = generatePassword();
+
+    let isPasswordPass = testPassword(password);
+
+    let counter = 0;
+
+    while (!isPasswordPass && counter < 10000) {
+      counter += 1;
+      password = generatePassword();
+      isPasswordPass = testPassword(password);
     }
-    return result;
+
+    return password;
   }
 }
