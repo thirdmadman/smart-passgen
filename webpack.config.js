@@ -107,7 +107,7 @@ module.exports = {
   devServer: {
     open: true,
     port: 8000,
-    hot: true,
+    hot: false,
     static: {
       directory: path.join(__dirname, './dist'),
       watch: true,

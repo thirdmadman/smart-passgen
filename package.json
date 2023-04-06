@@ -36,6 +36,7 @@
     "@babel/eslint-parser": "^7.19.1",
     "@babel/eslint-plugin": "^7.19.1",
     "@babel/preset-env": "^7.19.4",
+    "@types/chrome": "^0.0.212",
     "babel-loader": "^8.2.5",
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^11.0.0",

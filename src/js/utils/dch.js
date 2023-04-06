@@ -1,13 +1,13 @@
-export default function dch(tagName = 'div', classList = [''], content = '', ...childNodes) {
+export default function dch(tagName = 'div', classList = [], content = '', childNodes = []) {
   const node = document.createElement(tagName);
-  if (classList.length > 0) {
+  if (classList.length) {
     node.classList.add(...classList);
   }
-  if (content.length > 0) {
+  if (content.length) {
     node.innerHTML = content;
   }
-  if (childNodes.length > 0) {
-    childNodes.forEach((el) => node.append(el));
+  if (childNodes.length) {
+    node.append(...childNodes);
   }
   return node;
 }

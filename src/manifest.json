@@ -1,15 +1,16 @@
 {
-  "action": {
-     "default_icon": "static/icon-128.png",
-     "default_popup": "index.html"
-  },
+  "name": "Smart-passgen",
   "description": "Generate uniqie essy-to-input passwords, choose symbols, length.",
   "icons": {
-     "128": "static/icon-128.png",
-     "16": "static/icon-16.png",
-     "48": "static/icon-48.png"
+    "128": "static/icon-128.png",
+    "16": "static/icon-16.png",
+    "48": "static/icon-48.png"
   },
+  "version": "1.1",
   "manifest_version": 3,
-  "name": "Smart-passgen",
-  "version": "0.1"
+  "permissions": ["storage", "declarativeContent", "activeTab", "scripting", "tabs"],
+  "action": {
+    "default_icon": "static/icon-128.png",
+    "default_popup": "index.html"
+  }
 }

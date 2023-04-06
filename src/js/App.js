@@ -1,22 +1,26 @@
-import dhc from './utils/dch';
+import dch from './utils/dch';
 import SmartPassGen from './services/SmartPassGen';
 import ToggleElement from './components/ToggleElement';
 import InputNumber from './components/InputNumber';
 import LocalStorageProvider from './services/LocalStorageProvider';
+import TabView from './components/TabView';
+import TabsContainer from './components/TabsContainer';
+import SavedPasswordsContainer from './components/SavedPasswordsContainer';
 
 export default class App {
   constructor() {
     let configData = LocalStorageProvider.getData();
 
-    const appTitle = dhc('div', ['app-title'], 'Smart PassGen');
+    const appTitle = dch('div', ['app-title'], 'Smart Password Generator');
 
-    const configGroup = dhc('div', ['config-group']);
+    const configGroup = dch('div', ['config-group']);
 
     const smartPassGen = new SmartPassGen(configData.config.generatorConfig);
 
     this.mainEl = document.querySelector('.app');
-    const buttonGeneratePassword = dhc('button', ['button-generate'], 'Generate');
-    const currentPasswordText = dhc('div', ['password-text'], 'Here will be your password');
+
+    const buttonGeneratePassword = dch('button', ['button-generate'], 'Generate');
+    const currentPasswordText = dch('div', ['password-text'], 'Here will be your password');
     currentPasswordText.contentEditable = true;
 
     const toggleOption = (optionName, event) => {
@@ -66,14 +70,16 @@ export default class App {
       const passwordText = smartPassGen.generate();
       currentPasswordText.innerText = passwordText;
 
-      configData.lastPasswords.push({
-        date: new Date().toISOString(),
-        url: '',
-        password: passwordText,
-      });
+      if (configData.config.configCore.isSavePasswords) {
+        configData.lastPasswords.push({
+          date: new Date().toISOString(),
+          url: '',
+          password: passwordText,
+        });
 
-      LocalStorageProvider.setData(configData);
-      configData = LocalStorageProvider.getData();
+        LocalStorageProvider.setData(configData);
+        configData = LocalStorageProvider.getData();
+      }
     };
 
     const inputNumber = new InputNumber({
@@ -87,18 +93,70 @@ export default class App {
       value: smartPassGen.options.length,
     });
 
-    this.mainEl.append(appTitle);
-    this.mainEl.append(buttonGeneratePassword);
-    this.mainEl.append(currentPasswordText);
+    const isSavePasswords = new ToggleElement({
+      textContent: 'Save passwords',
+      onclick: (e) => {
+        configData.config.configCore.isSavePasswords = e.target.checked;
+        LocalStorageProvider.setData(configData);
+        configData = LocalStorageProvider.getData();
+      },
+      currentState: configData.config.configCore.isSavePasswords,
+    });
 
-    configGroup.append(inputNumber.getElement());
-    configGroup.append(isSmartSymbolsToggle.getElement());
-    configGroup.append(isUseLettersToggle.getElement());
-    configGroup.append(isIncludeUppercaseToggle.getElement());
-    configGroup.append(isUseNumbersToggle.getElement());
-    configGroup.append(isUseSpecialSymbols.getElement());
-    configGroup.append(isUseSpecialSymbolsAdvancedToggle.getElement());
+    configGroup.append(
+      inputNumber.getElement(),
+      isSmartSymbolsToggle.getElement(),
+      isUseLettersToggle.getElement(),
+      isIncludeUppercaseToggle.getElement(),
+      isUseNumbersToggle.getElement(),
+      isUseSpecialSymbols.getElement(),
+      isUseSpecialSymbolsAdvancedToggle.getElement(),
+    );
 
-    this.mainEl.append(configGroup);
+    const buttonRemoveAllPasswords = dch('button', ['button-generate'], 'Remove All Passwords');
+
+    const mainTab = new TabView({
+      id: 0,
+      name: 'Main',
+      elements: [buttonGeneratePassword, currentPasswordText, configGroup],
+    });
+    const savedPasswordsContainer = new SavedPasswordsContainer({ passwordsList: LocalStorageProvider.getData().lastPasswords });
+
+    buttonRemoveAllPasswords.onclick = () => {
+      configData.lastPasswords = [];
+      LocalStorageProvider.setData(configData);
+      configData = LocalStorageProvider.getData();
+
+      savedPasswordsContainer.renderList(LocalStorageProvider.getData().lastPasswords);
+    };
+
+    const savedPasswordsTab = new TabView({
+      id: 1,
+      name: 'Passwords',
+      elements: [savedPasswordsContainer.getElement(), buttonRemoveAllPasswords],
+    });
+
+    const configsTab = new TabView({
+      id: 2,
+      name: 'Configs',
+      elements: [isSavePasswords.getElement()],
+    });
+
+    const switchAction = (id) => {
+      savedPasswordsContainer.renderList(LocalStorageProvider.getData().lastPasswords);
+
+      configData.config.configCore.lastTab = id;
+
+      LocalStorageProvider.setData(configData);
+      configData = LocalStorageProvider.getData();
+    };
+
+    const tabsContainer = new TabsContainer({
+      tabs: [mainTab, savedPasswordsTab, configsTab],
+      activeTabId: configData.config.configCore.lastTab || 0,
+      switchAction,
+    });
+
+    this.mainEl.append(appTitle, tabsContainer.getElement());
   }
 }
