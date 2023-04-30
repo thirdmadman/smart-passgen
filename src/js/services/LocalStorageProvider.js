@@ -45,6 +45,7 @@ export default class LocalStorageProvider {
         },
         configCore: {
           isSavePasswords: false,
+          lastTab: 0,
         },
       },
       lastPasswords: [

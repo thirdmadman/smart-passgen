@@ -23,7 +23,8 @@
     "browser": true,
     "amd": true,
     "node": true,
-    "webextensions": true
+    "webextensions": true,
+    "jest": true
   },
   "plugins": ["@babel", "prettier"],
   "extends": ["eslint:recommended", "airbnb"]

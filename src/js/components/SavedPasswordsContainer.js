@@ -19,7 +19,10 @@ export default class SavedPasswordsContainer extends Component {
       return dch('div', ['password-record'], '', [passwordEl, dateEl]);
     };
 
-    const recordsList = passwordsList.map((passwordRecord) => createPasswordRecordElement(passwordRecord));
+    const recordsList = passwordsList
+      .sort((a, b) => Date.parse(a) - Date.parse(b))
+      .reverse()
+      .map((passwordRecord) => createPasswordRecordElement(passwordRecord));
 
     this.rootNode.append(...recordsList);
   }

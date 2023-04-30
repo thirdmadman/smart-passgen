@@ -17,7 +17,7 @@ export default class App {
 
     const smartPassGen = new SmartPassGen(configData.config.generatorConfig);
 
-    this.mainEl = document.querySelector('.app');
+    this.mainEl = dch('div', ['app']);
 
     const buttonGeneratePassword = dch('button', ['button-generate'], 'Generate');
     const currentPasswordText = dch('div', ['password-text'], 'Here will be your password');
@@ -158,5 +158,9 @@ export default class App {
     });
 
     this.mainEl.append(appTitle, tabsContainer.getElement());
+  }
+
+  render() {
+    return this.mainEl;
   }
 }
